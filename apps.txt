@@ -1,0 +1,71 @@
+TIlføje til build.gradle
+implementation 'com.google.firebase:firebase-storage:19.1.0'
+
+Create instance of FirebaseSTorage
+FirebaseStorage storage = FirebaseStorage.getInstance();
+
+Create a Reference
+// Create a storage reference from our app
+StorageReference storageRef = storage.getReference();
+
+
+Download Files
+Once you have a reference, you can download files from Cloud Storage by calling the getBytes() or getStream().
+
+
+Download handling with error
+
+storageRef.child("users/me/profile.png").getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+    @Override
+    public void onSuccess(byte[] bytes) {
+        // Use the bytes to display the image
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception exception) {
+        // Handle any errors
+    }
+});
+
+
+biblo:
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.OnPausedListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+
+
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+ StorageReference storageRef = storage.getReferenceFromUrl("gs://letsdraw-8c166.appspot.com");
+ storageRef.child("navneord.csv").getBytes(Long.MAX_VALUE).addOnSuccessListener(new storageRef.child("navneord.csv").getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+
+                btnDraw.setText("yes");
+                Log.d("Firebase1", "SUCCES ");
+                String str = new String(bytes);
+                String[] temp = TextUtils.split(str, ",");
+                String realstr = temp[new Random().nextInt(temp.length)].trim();
+
+                //Log.d("test[2]","value:" +temp.length);
+                //Log.d("test[2]","value:" +temp[1]);
+                //Log.d("test[2]","value:" +temp);
+
+                //double tempnump = (Math.random() * ((Lmax - Lmin) + 1)) + Lmin;
+                Log.d("taltest","random value:"+ realstr);
+                Log.d("taltest22","random value:"+ realstr.length());
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                btnGuess.setText("nej");
+                Log.d("Firebase2", "get failed with ");
+            }
+        });
